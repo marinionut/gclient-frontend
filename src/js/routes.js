@@ -25,11 +25,7 @@ angular.module('RDash')
             .state('familie', {
                 url: '/familie',
                 templateUrl: 'templates/familie.html'
-            }
-            .state('user-console', {
-                url: '/administrare',
-                templateUrl: 'templates/console.html'
-            }),
+            })
             .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login.html'
