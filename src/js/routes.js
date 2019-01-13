@@ -22,13 +22,17 @@ angular.module('RDash')
                 url: '/',
                 templateUrl: 'templates/dashboard.html'
             })
-            .state('familie', {
-                url: '/familie',
-                templateUrl: 'templates/familie.html'
-            })
+            // .state('familie', {
+            //     url: '/familie',
+            //     templateUrl: 'templates/familie.html'
+            // })
             .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login.html'
+            })
+            .state('users', {
+                url: '/users',
+                templateUrl: 'templates/users.html'
             })
             .state('register', {
                 url: '/register',

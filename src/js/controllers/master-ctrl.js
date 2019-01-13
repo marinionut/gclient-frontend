@@ -51,7 +51,8 @@ function MasterCtrl($scope, $cookieStore, $rootScope, $http, $state, AuthService
     $scope.$on(AUTH.authenticated, function(){
         $http.get('http://localhost:8081/api/memberinfo').then(function(result){
             if(result.data.success){
-                $rootScope.memberinfo = result.data.msg;
+                $rootScope.memberinfo = angular.fromJson(result.data.msg);
+                console.log("memberinfo  " + $rootScope.memberinfo);
             }
         });
     });
@@ -60,7 +61,8 @@ function MasterCtrl($scope, $cookieStore, $rootScope, $http, $state, AuthService
         if (AuthService.isAuthenticated()){
             $http.get('http://localhost:8081/api/memberinfo').then(function(result){
                 if(result.data.success){
-                    $rootScope.memberinfo = result.data.msg;
+                    $rootScope.memberinfo = angular.fromJson(result.data.msg);
+                    console.log("memberinfo  " + $rootScope.memberinfo);
                 }
             });
         }
@@ -70,11 +72,9 @@ function MasterCtrl($scope, $cookieStore, $rootScope, $http, $state, AuthService
     $scope.pageName = "";
     $rootScope.$on('$stateChangeStart', function (event, next) {
         if(next.name === 'index') {
-            $scope.pageName = "Harta";
-        } else if(next.name === 'familie') {
-            $scope.pageName = "Familie";
-        } else if(next.name === 'importExport') {
-            $scope.pageName = "Import/Export";
+            $scope.pageName = "GCloud Console";
+        }  else if(next.name === 'users') {
+            $scope.pageName = "GCloud Console";
         } else {
             $scope.pageName = "";
         }

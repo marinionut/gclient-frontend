@@ -33,7 +33,8 @@
   <script type="text/javascript" src="components/leaflet-plugins/layer/tile/Google.js"></script>
   <script type="text/javascript" src="components/FileSaver/dist/angular-file-saver.bundle.js"></script>
   <!-- endbuild -->
-  <link rel="shortcut icon" href="img/favicon.ico"/>
+  <!--<link rel="shortcut icon" href="img/favicon.ico"/>-->
+  <link rel="shortcut icon" href="img/gc.png"/>
   <!-- Custom Scripts -->
   <script type="text/javascript" src="js/dashboard.min.js"></script>
 </head>
@@ -44,15 +45,17 @@
       <ul class="sidebar">
         <li class="sidebar-main">
           <a ng-click="toggleSidebar()">
-            <span ng-hide="memberinfo == null">{{pageName}}</span>
+            <span ng-hide="memberinfo == null"></span>
+            {{pageName}}
             <span class="menu-icon glyphicon glyphicon-transfer"></span>
           </a>
         </li>
         <li class="sidebar-list" ng-hide="memberinfo == null">
-          <a href="#">Harta <span class="menu-icon fa fa-map"></span></a>
+          <a href="#">Panou VM's <span class="menu-icon fa fa-cloud"></span></a>
         </li>
-        <li class="sidebar-list" ng-hide="memberinfo == null">
-          <a href="#!/familie">Familie <span class="menu-icon fa fa-users"></span></a>
+
+        <li class="sidebar-list" ng-hide="memberinfo == null || memberinfo.role != 'admin'">
+          <a href="#!/users">Utilizatori <span class="menu-icon fa fa-users"></span></a>
         </li>
       </ul>
       <div class="sidebar-footer">

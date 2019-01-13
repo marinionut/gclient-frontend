@@ -1,30 +1,70 @@
-<div ng-controller="DashboardCtrl">
-	<div class="row">
-		<div class="col-lg-12 col-md-12 col-xs-12" style="margin-top: 20px;">
-			<leaflet id="map" lf-center="bucharest" markers="markers" layers="layers" width="100%" height="{{height-80}}" legend="legend"></leaflet>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<form class="form-inline">
-				<div class="form-group">
-					<label type="button" class="btn btn-success" ng-click="addNewMarkers()" ng-disabled="markersReadyForCommit.length == 0">Salveaza locatii noi<span class="fa fa-save" style="padding-left: 5px;"></span></label>
-				</div>
-				<div class="form-group">
-					<label type="button" class="btn btn-danger" ng-click="deleteAddedMarkers()" ng-disabled="markersReadyForCommit.length == 0">Sterge locatii noi<span class="fa fa-times" style="padding-left: 5px;"></span></label>
-				</div>
-				<div class="form-group">
-					<label type="button" class="btn btn-primary" ng-click="exportLocations()">Exporta locatii<span class="fa fa-cloud-download" style="padding-left: 5px;"></span></label>
-				</div>
-				<div class="form-group">
-					<label class="btn btn-default">
-						Alege fisier<input type="file" on-read-file="showContent($fileContent, $fileName)" style="display: none !important;">
-					</label> {{ importedFileName }}
-				</div>
-				<div class="form-group">
-					<label type="button" class="btn btn-primary" ng-click="importLocations()">Importa locatii<span class="fa fa-cloud-upload" style="padding-left: 5px;"></span></label>
-				</div>
-			</form>
-		</div>
-	</div>
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css"/>
+<div ng-controller="DashboardCtrl" class="container" style="padding:10px 10px;">
+    <div class="container" style="padding:10px 10px;">
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border"></legend>
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="inputVMName">Name</label>
+                    <input type="text" class="form-control" id="inputVMName" ng-model="inputVMName" placeholder="name" required />
+                </div>
+                <div class="form-group">
+                    <label for="inputZone">Role</label>
+                    <!--<input type="number" class="form-control" id="inputRole" ng-model="role" placeholder="role">-->
+                    <input list="zone" ng-model="inputZone" class="form-control" id="inputZone" value={{zones[0]}} required/>
+                    <datalist id="zone" ng-repeat="zone in zones">
+                        <option value={{zone}}>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="inputImage">Role</label>
+                    <!--<input type="number" class="form-control" id="inputRole" ng-model="role" placeholder="role">-->
+                    <input list="images" ng-model="inputImage" class="form-control" id="inputImage" value={{vmImages[0]}} required/>
+                    <datalist id="images" ng-repeat="image in vmImages">
+                        <option value={{image}}>
+                    </datalist>
+                </div>
+                <button type="button" class="btn btn-primary" ng-click="addVM()"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add VM</button>
+            </form>
+        </fieldset>
+    </div>
+    <div class="container" style="padding:10px 10px;">
+        <table class="table table-bordered" id="tbl_employees">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Timestamp</th>
+                <th>Cpu platform</th>
+                <th>Disk name</th>
+                <th>Zone</th>
+                <th>Status</th>
+                <th ng-hide="memberinfo.role == 'read'">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="tbl_posts_body">
+            <tr ng-repeat="vm in virtualMachines">
+                <td><span class="sn">{{$index + 1}}</span>.</td>
+                <td>{{vm.id}}</td>
+                <td>{{vm.vmName}}</td>
+                <td>{{vm.creationTimestamp}}</td>
+                <td>{{vm.cpuPlatform}}</td>
+                <td>{{vm.diskName}}</td>
+                <td>{{vm.zone}}</td>
+                <td>{{vm.status}}</td>
+                <td ng-hide="memberinfo.role == 'read'">
+                    <button type="button" class="btn-xs btn-success"
+                            ng-click="startVM(vm.vmName, vm.zone)"
+                            ng-hide="vm.status == 'RUNNING'">
+                        Start
+                    </button>
+                    <button type="button" class="btn-xs btn-info" ng-click="resetVM(vm.vmName, vm.zone)">Reset</button>
+                    <button type="button" class="btn-xs btn-warning" ng-click="stopVM(vm.vmName, vm.zone)">Stop</button>
+                    <button type="button" class="btn-xs btn-danger" ng-click="deleteVM(vm.vmName, vm.zone)">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
