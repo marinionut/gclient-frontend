@@ -3,29 +3,39 @@
     <div class="container" style="padding:10px 10px;">
         <fieldset class="scheduler-border">
             <legend class="scheduler-border"></legend>
-            <form class="form-inline">
+            <form class="form-inline" ng-hide="hideAdd()">
                 <div class="form-group">
                     <label for="inputVMName">Name</label>
                     <input type="text" class="form-control" id="inputVMName" ng-model="inputVMName" placeholder="name" required />
                 </div>
                 <div class="form-group">
-                    <label for="inputZone">Role</label>
+                    <label for="inputZone">Zone</label>
                     <!--<input type="number" class="form-control" id="inputRole" ng-model="role" placeholder="role">-->
-                    <input list="zone" ng-model="inputZone" class="form-control" id="inputZone" value={{zones[0]}} required/>
-                    <datalist id="zone" ng-repeat="zone in zones">
-                        <option value={{zone}}>
-                    </datalist>
+                    <!--<input list="zone" ng-model="inputZone" class="form-control" id="inputZone" value={{zones[0]}} required/>-->
+                    <!--<datalist id="zone" ng-repeat="zone in zones">-->
+                        <!--<option value={{zone}}>-->
+                    <!--</datalist>-->
+
+                    <select id="inputZone" ng-model="inputZone" class="form-control" ng-required="true">
+                        <option ng-repeat="z in zones">{{z}}</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="inputImage">Role</label>
+                    <label for="inputImage">OS</label>
                     <!--<input type="number" class="form-control" id="inputRole" ng-model="role" placeholder="role">-->
-                    <input list="images" ng-model="inputImage" class="form-control" id="inputImage" value={{vmImages[0]}} required/>
-                    <datalist id="images" ng-repeat="image in vmImages">
-                        <option value={{image}}>
-                    </datalist>
+                    <!--<input list="images" ng-model="inputImage" class="form-control" id="inputImage" value={{vmImages[0]}} required/>-->
+                    <!--<datalist id="images" ng-repeat="image in vmImages">-->
+                        <!--<option value={{image}}>-->
+                    <!--</datalist>-->
+
+                    <select id="inputImage" ng-model="inputImage" class="form-control" ng-required="true">
+                        <option ng-repeat="img in vmImages">{{img}}</option>
+                    </select>
                 </div>
                 <button type="button" class="btn btn-primary" ng-click="addVM()"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add VM</button>
             </form>
+            <button type="button" class="btn btn-primary" ng-click="getVMs()()" style="float: right;"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>
+
         </fieldset>
     </div>
     <div class="container" style="padding:10px 10px;">
@@ -40,7 +50,7 @@
                 <th>Disk name</th>
                 <th>Zone</th>
                 <th>Status</th>
-                <th ng-hide="memberinfo.role == 'read'">Actions</th>
+                <th ng-hide="hideAllActions()">Actions</th>
             </tr>
             </thead>
             <tbody id="tbl_posts_body">
@@ -53,15 +63,15 @@
                 <td>{{vm.diskName}}</td>
                 <td>{{vm.zone}}</td>
                 <td>{{vm.status}}</td>
-                <td ng-hide="memberinfo.role == 'read'">
+                <td ng-hide="hideAllActions()">
                     <button type="button" class="btn-xs btn-success"
-                            ng-click="startVM(vm.vmName, vm.zone)"
-                            ng-hide="vm.status == 'RUNNING'">
+                            ng-click="startVM(vm.vmName, vm.zone, vm.status)"
+                            ng-hide="hideStart() || vm.status == 'RUNNING'">
                         Start
                     </button>
-                    <button type="button" class="btn-xs btn-info" ng-click="resetVM(vm.vmName, vm.zone)">Reset</button>
-                    <button type="button" class="btn-xs btn-warning" ng-click="stopVM(vm.vmName, vm.zone)">Stop</button>
-                    <button type="button" class="btn-xs btn-danger" ng-click="deleteVM(vm.vmName, vm.zone)">Delete</button>
+                    <button type="button" class="btn-xs btn-info" ng-click="resetVM(vm.vmName, vm.zone, vm.status)" ng-hide="hideReset()">Reset</button>
+                    <button type="button" class="btn-xs btn-warning" ng-click="stopVM(vm.vmName, vm.zone, vm.status)" ng-hide="hideStop() || vm.status == 'TERMINATED'">Stop</button>
+                    <button type="button" class="btn-xs btn-danger" ng-click="deleteVM(vm.vmName, vm.zone, vm.status)" ng-hide="hideDelete()">Delete</button>
                 </td>
             </tr>
             </tbody>

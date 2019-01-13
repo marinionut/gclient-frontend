@@ -1,13 +1,14 @@
 angular.module('RDash')
     .controller('UsersCtrl', ['$scope', '$rootScope', '$http', '$window', UsersCtrl]);
 
-function UsersCtrl($scope, $rootScope, $http) {
+function UsersCtrl($scope, $rootScope, $http, $window) {
 
     console.log($rootScope.memberinfo);
 
     $scope.failMessage = "";
     $scope.users = [];
     $scope.roles = ["admin", "partial", "read"];
+    $scope.role = $scope.roles[0];
 
     $scope.getUsers = function() {
         $http({method: 'GET', url: 'http://localhost:8081/api/user/all'}).
@@ -18,16 +19,17 @@ function UsersCtrl($scope, $rootScope, $http) {
     }
     $scope.getUsers();
 
-
     $scope.addUser = function() {
         var newUser = {
             username : $scope.username,
             password : $scope.password,
             role : $scope.role
         };
-        if (username == null || username == ""
-            || password == null || password == ""
-            || role == null || role == ""
+        console.log("adding " + newUser.username + " " + newUser.password + " " + newUser.role);
+
+        if (newUser.username == null || newUser.username == ""
+            || newUser.password == null || newUser.password == ""
+            || newUser.role == null || newUser.role == ""
         ) {
             window.alert("Va rugam completati toate campurile!")
             return;
@@ -42,9 +44,9 @@ function UsersCtrl($scope, $rootScope, $http) {
                 $scope.password = "";
                 $scope.role = "";
             } else if(response.status == 500) {
-                $scope.failMessage = response.data.body;
+                $scope.failMessage = response.message;
                 window.alert($scope.failMessage);
-                //$window.alert("Utilizatorul nu a putut fi adaugat");
+                $window.alert("Utilizatorul nu a putut fi adaugat");
             }
         });
     }
@@ -54,6 +56,5 @@ function UsersCtrl($scope, $rootScope, $http) {
         then(function(response) {
             $scope.getUsers();
         });
-
     }
 }

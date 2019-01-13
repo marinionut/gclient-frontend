@@ -6,19 +6,24 @@
         <form class="form-inline">
             <div class="form-group">
                 <label for="inputUsername">Username</label>
-                <input type="text" class="form-control" id="inputUsername" ng-model="username" placeholder="username" required />
+                <input type="text" class="form-control" id="inputUsername" ng-model="username" placeholder="username" ng-required="true" />
             </div>
             <div class="form-group">
                 <label for="inputPassword">Password</label>
-                <input type="password" class="form-control" id="inputPassword" ng-model="password" placeholder="password" required />
+                <input type="password" class="form-control" id="inputPassword" ng-model="password" placeholder="password" ng-required="true" />
             </div>
             <div class="form-group">
                 <label for="inputRole">Role</label>
                 <!--<input type="number" class="form-control" id="inputRole" ng-model="role" placeholder="role">-->
-                <input list="role" ng-model="role" class="form-control" id="inputRole" value={{roles[0]}} required/>
-                <datalist id="role" ng-repeat="role in roles">
-                    <option value={{role}}>
-                </datalist>
+                <!--<input list="role" ng-model="role" class="form-control" id="inputRole" required/>-->
+                <select id="inputRole" ng-model="role" class="form-control" ng-required="true">
+                    <option ng-repeat="r in roles">{{r}}</option>
+                </select>
+                <!--<datalist id="role" ng-repeat="role in roles">-->
+                    <!--<select>-->
+                        <!--<option value={{role}}>-->
+                    <!--</select>-->
+                <!--</datalist>-->
             </div>
             <button type="button" class="btn btn-primary" ng-click="addUser()"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add user</button>
         </form>

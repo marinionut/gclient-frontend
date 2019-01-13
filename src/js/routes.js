@@ -22,10 +22,6 @@ angular.module('RDash')
                 url: '/',
                 templateUrl: 'templates/dashboard.html'
             })
-            // .state('familie', {
-            //     url: '/familie',
-            //     templateUrl: 'templates/familie.html'
-            // })
             .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login.html'
@@ -33,11 +29,11 @@ angular.module('RDash')
             .state('users', {
                 url: '/users',
                 templateUrl: 'templates/users.html'
-            })
-            .state('register', {
-                url: '/register',
-                templateUrl: 'templates/register.html'
             });
+            // .state('register', {
+            //     url: '/register',
+            //     templateUrl: 'templates/register.html'
+            // });
     }
 ])
 
